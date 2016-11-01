@@ -10,4 +10,12 @@ RSpec.describe Identifiers::PubmedId do
 
     expect(described_class.extract(str)).to be_empty
   end
+
+  it 'strips leading 0s' do
+    expect(described_class.extract("0000010203\n000456000")).to contain_exactly('10203', '456000')
+  end
+
+  it 'does not consider 0 as a valid Pubmed ID' do
+    expect(described_class.extract("00000000")).to be_empty
+  end
 end
