@@ -1,4 +1,6 @@
-# Identifiers
+# Identifiers [![Build Status](https://travis-ci.org/altmetric/identifiers.svg?branch=master)](https://travis-ci.org/altmetric/identifiers)
+
+[![Gem Version](https://badge.fury.io/rb/identifiers.svg)](https://badge.fury.io/rb/identifiers)  
 
 Collection of utilities related to the extraction, validation and normalization of various scholarly identifiers. The supported list is:
 - [ADS Bibcodes](http://adsdoc.harvard.edu/abs_doc/help_pages/bibcodes.html)
