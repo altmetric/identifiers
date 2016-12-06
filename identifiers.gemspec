@@ -1,7 +1,7 @@
 Gem::Specification.new do |spec|
   spec.name          = 'identifiers'
-  spec.version       = '0.3.0'
-  spec.authors       = ['Jonathan Hernandez']
+  spec.version       = '0.3.1'
+  spec.authors       = ['Jonathan Hernandez', 'Paul Mucur']
   spec.email         = ['support@altmetric.com']
 
   spec.summary       = 'Utilities library for various scholarly identifiers used by Altmetric'
