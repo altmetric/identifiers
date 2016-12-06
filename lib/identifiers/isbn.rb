@@ -22,7 +22,14 @@ module Identifiers
     end
 
     def self.isbn_13_check_digit(isbn)
-      10 - isbn.each_char.zip([1, 3].cycle).reduce(0) { |sum, values| sum + (Integer(values[0]) * values[1]) } % 10
+      sum = isbn.each_char.zip([1, 3].cycle).reduce(0) { |sum, values| sum + (Integer(values[0]) * values[1]) }
+      check_digit = 10 - (sum % 10)
+
+      if check_digit == 10
+        0
+      else
+        check_digit
+      end
     end
 
     def self.valid_isbn_13?(isbn)
