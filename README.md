@@ -34,9 +34,15 @@ Or install it yourself as:
 
 ```ruby
 Identifiers::DOI.extract('example: 10.123/abcd.efghi')
+# => ["10.123/abcd.efghi"]
+
+Identifiers::DOI.extract('no DOIs here')
+# => []
 
 Identifiers::URN.new('urn:abc:123')
+# => #<URN:0x007ff11c13d930 @urn="urn:abc:123", @nid="abc", @nss="123">
 Identifiers::URN('urn:abc:123')
+# => #<URN:0x007ff11c0ff568 @urn="urn:abc:123", @nid="abc", @nss="123">
 ```
 
 ## By identifier
@@ -56,7 +62,7 @@ Identifiers::RepecId.extract('')
 Identifiers::URN.extract('')
 ```
 
-But for some identifiers might have more. Check their implementation to see all the methods available.
+But for some identifiers might have more. Check [their implementation](https://github.com/altmetric/identifiers/tree/master/lib/identifiers) to see all the methods available.
 
 For `URN`s, please check the [URN gem documentation](https://github.com/altmetric/urn) to see all the available options.
 
