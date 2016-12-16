@@ -66,6 +66,14 @@ But for some identifiers might have more. Check [their implementation](https://g
 
 For `URN`s, please check the [URN gem documentation](https://github.com/altmetric/urn) to see all the available options.
 
+### DOIs
+
+DOI's are notoriously tricky to pin down in a regex, since the actual regex could feasibly be `10\.{\d}+/\S+` in order to match all possible DOIs.
+
+The regular expression we use is taken from a [CrossRef article](http://blog.crossref.org/2015/08/doi-regular-expressions.html) describing a sane way of matching 74.4M of their 74.9M registered DOIs (as of 2015). Additionally, the library will seek out a portion of more unusual looking DOIs (predominately used by Wiley). This catches around 300k extra IDs. The blog post goes into extra regexs, however they'll add more false positives.
+
+It should be noted that we do not make attempts to clean up the DOIs. You may well find punction at the end of the extracted DOI, or invalid Unicode characters. This will depend on the quality of the source you're scraping.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/altmetric/identifiers.
