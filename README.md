@@ -1,22 +1,21 @@
-# Identifiers [![Build Status](https://travis-ci.org/altmetric/identifiers.svg?branch=master)](https://travis-ci.org/altmetric/identifiers)
-
-[![Gem Version](https://badge.fury.io/rb/identifiers.svg)](https://badge.fury.io/rb/identifiers)  
+# Identifiers [![Build Status](https://travis-ci.org/altmetric/identifiers.svg?branch=master)](https://travis-ci.org/altmetric/identifiers) [![Gem Version](https://badge.fury.io/rb/identifiers.svg)](https://badge.fury.io/rb/identifiers)
 
 Collection of utilities related to the extraction, validation and normalization of various scholarly identifiers. The supported list is:
+
 - [ADS Bibcodes](http://adsdoc.harvard.edu/abs_doc/help_pages/bibcodes.html)
-- [arXiv](https://arxiv.org/help/arxiv_identifier)
-- [DOI](https://www.doi.org/)
-- [Handle](https://en.wikipedia.org/wiki/Handle_System)
-- [ISBN](https://en.wikipedia.org/wiki/International_Standard_Book_Number)
-- [National Clinic Trials](https://clinicaltrials.gov/)
-- [PubMed](http://www.ncbi.nlm.nih.gov/pubmed)
-- [RePEc](https://en.wikipedia.org/wiki/Research_Papers_in_Economics)
-- [URN](https://en.wikipedia.org/wiki/Uniform_Resource_Name)
-- [ORCID](http://orcid.org/)
+- [arXiv IDs](https://arxiv.org/help/arxiv_identifier)
+- [DOIs](https://www.doi.org/)
+- [Handles](https://en.wikipedia.org/wiki/Handle_System)
+- [ISBNs](https://en.wikipedia.org/wiki/International_Standard_Book_Number)
+- [National Clinical Trial IDs](https://clinicaltrials.gov/)
+- [PubMed IDs](http://www.ncbi.nlm.nih.gov/pubmed)
+- [RePEc IDs](https://en.wikipedia.org/wiki/Research_Papers_in_Economics)
+- [URNs](https://en.wikipedia.org/wiki/Uniform_Resource_Name)
+- [ORCID identifiers](http://orcid.org/)
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your application's `Gemfile`:
 
 ```ruby
 gem 'identifiers', '~> 0.3'
