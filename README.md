@@ -70,6 +70,10 @@ For `URN`s, please check the [URN gem documentation](https://github.com/altmetri
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/altmetric/identifiers.
 
+## PHP version
+
+We also maintain [a version of this library for PHP](https://github.com/altmetric/php-identifiers).
+
 ## License
 
 Copyright © 2016 Altmetric LLP
