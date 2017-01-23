@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.4.0] - 2017-01-23
+### Changed
+- Extract ISBNs separated by spaces as well as hyphens
+
 ## [0.3.1] - 2016-12-06
 ### Fixed
 - Fix ISBN-10 to 13 conversion when check digit is 10
@@ -17,3 +21,9 @@ project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.0] - 2016-10-21
 ### Added
 - Initial release
+
+[0.1.0]: https://github.com/altmetric/identifiers/releases/tag/v0.1.0
+[0.2.0]: https://github.com/altmetric/identifiers/releases/tag/v0.2.0
+[0.3.0]: https://github.com/altmetric/identifiers/releases/tag/v0.2.0
+[0.3.1]: https://github.com/altmetric/identifiers/releases/tag/v0.3.1
+[0.4.0]: https://github.com/altmetric/identifiers/releases/tag/v0.4.0
