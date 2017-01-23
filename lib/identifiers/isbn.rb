@@ -8,11 +8,11 @@ module Identifiers
     end
 
     def self.extract_thirteen_digit_isbns(str)
-      str.tr('-', '').scan(REGEX_13).select { |isbn| valid_isbn_13?(isbn) }
+      str.gsub(/(?<=\d)[- ](?=\d)/, '').scan(REGEX_13).select { |isbn| valid_isbn_13?(isbn) }
     end
 
     def self.extract_ten_digit_isbns(str)
-      str.tr('-', '').scan(REGEX_10).select { |isbn| valid_isbn_10?(isbn) }.map { |isbn|
+      str.gsub(/(?<=\d)[- ](?=[\dX])/i, '').scan(REGEX_10).select { |isbn| valid_isbn_10?(isbn) }.map { |isbn|
         isbn.chop!
         isbn.prepend('978')
         isbn << isbn_13_check_digit(isbn).to_s
