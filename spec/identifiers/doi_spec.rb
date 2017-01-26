@@ -13,8 +13,20 @@ RSpec.describe Identifiers::DOI do
     expect(described_class.extract(str)).to contain_exactly('10.1097/01.asw.0000443266.17665.19')
   end
 
-  it 'does not extract a PUBMED ID' do
+  it 'does not extract a PubMed ID' do
     str = 'This is NOT a DOI: 123456'
+
+    expect(described_class.extract(str)).to be_empty
+  end
+
+  it 'extracts ISBN-As' do
+    str = 'This is an ISBN-A: 10.978.8898392/315'
+
+    expect(described_class.extract(str)).to contain_exactly('10.978.8898392/315')
+  end
+
+  it 'does not extract invalid ISBN-As' do
+    str = 'This is not an ISBN-A: 10.978.8898392/NotARealIsbnA'
 
     expect(described_class.extract(str)).to be_empty
   end
