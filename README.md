@@ -4,7 +4,7 @@ Collection of utilities related to the extraction, validation and normalization 
 
 - [ADS Bibcodes](http://adsdoc.harvard.edu/abs_doc/help_pages/bibcodes.html)
 - [arXiv IDs](https://arxiv.org/help/arxiv_identifier)
-- [DOIs](https://www.doi.org/)
+- [DOIs](https://www.doi.org/) (including [ISBN-As](https://www.doi.org/factsheets/ISBN-A.html))
 - [Handles](https://en.wikipedia.org/wiki/Handle_System)
 - [ISBNs](https://en.wikipedia.org/wiki/International_Standard_Book_Number)
 - [National Clinical Trial IDs](https://clinicaltrials.gov/)

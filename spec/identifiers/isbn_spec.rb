@@ -19,6 +19,14 @@ RSpec.describe Identifiers::ISBN do
     expect(described_class.extract('ISBN: 978 0 80 506909 9')).to contain_exactly('9780805069099')
   end
 
+  it 'extracts ISBN-13s from ISBN-As' do
+    expect(described_class.extract('10.978.8898392/315')).to contain_exactly('9788898392315')
+  end
+
+  it 'does not extract invalid ISBNs from ISBN-As' do
+    expect(described_class.extract('10.978.8898392/316')).to be_empty
+  end
+
   it 'normalizes 10-digit ISBNs' do
     str = "0-8050-6909-7 \n 2-7594-0269-X"
 
