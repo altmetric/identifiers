@@ -18,7 +18,7 @@ Collection of utilities related to the extraction, validation and normalization 
 Add this line to your application's `Gemfile`:
 
 ```ruby
-gem 'identifiers', '~> 0.4'
+gem 'identifiers', '~> 0.5'
 ```
 
 And then execute:
