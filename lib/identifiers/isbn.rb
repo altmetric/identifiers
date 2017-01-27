@@ -2,9 +2,14 @@ module Identifiers
   class ISBN
     REGEX_13 = /\b97[89]\d{10}\b/
     REGEX_10 = /\b\d{9}(?:\d|X)\b/
+    REGEX_A = %r{\b(?<=10\.)97[89]\.\d{2,8}/\d{1,7}\b}
 
     def self.extract(str)
-      extract_thirteen_digit_isbns(str) + extract_ten_digit_isbns(str)
+      extract_isbn_as(str) + extract_thirteen_digit_isbns(str) + extract_ten_digit_isbns(str)
+    end
+
+    def self.extract_isbn_as(str)
+      extract_thirteen_digit_isbns(str.scan(REGEX_A).join("\n").tr('/.', ''))
     end
 
     def self.extract_thirteen_digit_isbns(str)
