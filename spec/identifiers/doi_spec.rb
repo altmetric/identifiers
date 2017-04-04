@@ -42,4 +42,10 @@ RSpec.describe Identifiers::DOI do
 
     expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502(04)')
   end
+
+  it 'does not extract periods on a DOI' do
+    str = 'This is an example of DOI: 10.1049/el.2013.3006.'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1049/el.2013.3006')
+  end
 end
