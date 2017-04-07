@@ -17,14 +17,26 @@ module Identifiers
         \S+     # DOI suffix
       )
     }x
+    VALID_ENDING = /
+      (?:
+        \p{^Punct}  # Non-punctuation character
+        |
+        \(.+\)      # Balanced parentheses
+        |
+        2-\#        # Early Wiley DOI suffix
+      )
+      \z
+    /x
 
     def self.extract(str)
       str
+        .to_s
+        .downcase
         .scan(PATTERN)
         .map { |doi|
-          next doi.downcase if doi !~ /\p{Punct}\z/ || doi =~ /\(.+\)\z/
+          next doi if doi =~ VALID_ENDING
 
-          doi.downcase.chop
+          doi.sub(/\p{Punct}+\z/, '')
         }
     end
   end
