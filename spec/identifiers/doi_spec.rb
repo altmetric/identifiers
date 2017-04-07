@@ -37,9 +37,21 @@ RSpec.describe Identifiers::DOI do
     expect(described_class.extract(str)).to be_empty
   end
 
-  it 'retains potentially valid trailing punctuation' do
+  it 'retains closing parentheses that are part of the DOI' do
     str = 'This is an example of DOI: 10.1130/2013.2502(04)'
 
     expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502(04)')
+  end
+
+  it 'discards trailing punctuation' do
+    str = 'This is an example of DOI: 10.1130/2013.2502.'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502')
+  end
+
+  it 'does not extract a closing parenthesis if not part of the DOI' do
+    str = '(This is an example of DOI: 10.1130/2013.2502)'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502')
   end
 end
