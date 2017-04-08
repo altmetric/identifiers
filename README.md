@@ -69,6 +69,10 @@ For `URN`s, please check the [URN gem documentation](https://github.com/altmetri
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/altmetric/identifiers.
 
+## Contributions
+
+* Thanks to [Tom Stuart](https://github.com/tomstuart) for [cleaning up the ISBN check digit code](https://github.com/altmetric/identifiers/pull/10).
+
 ## PHP version
 
 We also maintain [a version of this library for PHP](https://github.com/altmetric/php-identifiers).
