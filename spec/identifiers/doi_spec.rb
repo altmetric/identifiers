@@ -2,13 +2,19 @@ require 'identifiers/doi'
 
 RSpec.describe Identifiers::DOI do
   it 'extracts DOIs from a string' do
-    str = 'This is an example of DOI: 10.1049/el.2013.3006'
+    str = 'This is an example of a DOI: 10.1049/el.2013.3006'
 
     expect(described_class.extract(str)).to contain_exactly('10.1049/el.2013.3006')
   end
 
-  it 'downcase the DOIs extracted' do
-    str = 'This is an example of DOI: 10.1097/01.ASW.0000443266.17665.19'
+  it 'extracts DOIs from anywhere in a string' do
+    str = 'This is an example of a DOI - 10.1049/el.2013.3006 - which is entirely valid'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1049/el.2013.3006')
+  end
+
+  it 'downcases the DOIs extracted' do
+    str = 'This is an example of a DOI: 10.1097/01.ASW.0000443266.17665.19'
 
     expect(described_class.extract(str)).to contain_exactly('10.1097/01.asw.0000443266.17665.19')
   end
@@ -17,6 +23,10 @@ RSpec.describe Identifiers::DOI do
     str = 'This is NOT a DOI: 123456'
 
     expect(described_class.extract(str)).to be_empty
+  end
+
+  it 'returns no DOIs if given nothing' do
+    expect(described_class.extract(nil)).to be_empty
   end
 
   it 'extracts ISBN-As' do
@@ -29,5 +39,41 @@ RSpec.describe Identifiers::DOI do
     str = 'This is not an ISBN-A: 10.978.8898392/NotARealIsbnA'
 
     expect(described_class.extract(str)).to be_empty
+  end
+
+  it 'retains closing parentheses that are part of the DOI' do
+    str = 'This is an example of a DOI: 10.1130/2013.2502(04)'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502(04)')
+  end
+
+  it 'discards trailing punctuation' do
+    str = 'This is an example of a DOI: 10.1130/2013.2502.'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502')
+  end
+
+  it 'discards multiple contiguous trailing punctuation' do
+    str = 'This is an example of a DOI: 10.1130/2013.2502...",'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502')
+  end
+
+  it 'discards trailing Unicode punctuation' do
+    str = 'This is an example of a DOI: 10.1130/2013.2502…'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502')
+  end
+
+  it 'extracts particularly exotic DOIs' do
+    str = 'This is an example of an exotic DOI: 10.1002/(SICI)1096-8644(199601)99:1<135::AID-AJPA8>3.0.CO;2-#'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1002/(sici)1096-8644(199601)99:1<135::aid-ajpa8>3.0.co;2-#')
+  end
+
+  it 'does not extract a closing parenthesis if not part of the DOI' do
+    str = '(This is an example of a DOI: 10.1130/2013.2502)'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502')
   end
 end
