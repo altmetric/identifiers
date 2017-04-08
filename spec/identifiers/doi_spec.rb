@@ -7,6 +7,12 @@ RSpec.describe Identifiers::DOI do
     expect(described_class.extract(str)).to contain_exactly('10.1049/el.2013.3006')
   end
 
+  it 'extracts DOIs from any where in a string' do
+    str = 'This is an example of DOI - 10.1049/el.2013.3006 - which is entirely valid'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1049/el.2013.3006')
+  end
+
   it 'downcase the DOIs extracted' do
     str = 'This is an example of DOI: 10.1097/01.ASW.0000443266.17665.19'
 
@@ -29,5 +35,17 @@ RSpec.describe Identifiers::DOI do
     str = 'This is not an ISBN-A: 10.978.8898392/NotARealIsbnA'
 
     expect(described_class.extract(str)).to be_empty
+  end
+
+  it 'retains potentially valid trailing punctuation' do
+    str = 'This is an example of DOI: 10.1130/2013.2502(04)'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502(04)')
+  end
+
+  it 'does not extract periods on a DOI' do
+    str = 'This is an example of DOI: 10.1049/el.2013.3006.'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1049/el.2013.3006')
   end
 end
