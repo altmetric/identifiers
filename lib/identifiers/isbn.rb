@@ -27,7 +27,7 @@ module Identifiers
     end
 
     def self.isbn_13_check_digit(isbn)
-      sum = isbn.each_char.zip([1, 3].cycle).map { |digit, weight| Integer(digit) * weight }.reduce(:+)
+      sum = digits_of(isbn).zip([1, 3].cycle).map { |digit, weight| digit * weight }.reduce(:+)
       check_digit = 10 - (sum % 10)
 
       if check_digit == 10
@@ -40,7 +40,7 @@ module Identifiers
     def self.valid_isbn_13?(isbn)
       return false unless isbn =~ REGEX_13
 
-      result = isbn.each_char.zip([1, 3].cycle).map { |digit, weight| Integer(digit) * weight }.reduce(:+)
+      result = digits_of(isbn).zip([1, 3].cycle).map { |digit, weight| digit * weight }.reduce(:+)
 
       (result % 10).zero?
     end
@@ -48,9 +48,13 @@ module Identifiers
     def self.valid_isbn_10?(isbn)
       return false unless isbn =~ REGEX_10
 
-      result = isbn.each_char.with_index.map { |digit, weight| Integer(digit.sub('X', '10')) * weight.succ }.reduce(:+)
+      result = digits_of(isbn).with_index.map { |digit, weight| digit * weight.succ }.reduce(:+)
 
       (result % 11).zero?
+    end
+
+    def self.digits_of(isbn)
+      isbn.each_char.map { |char| char == 'X' ? 10 : Integer(char) }.to_enum
     end
   end
 end
