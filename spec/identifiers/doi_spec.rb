@@ -110,4 +110,12 @@ RSpec.describe Identifiers::DOI do
   it 'does not extract DOIs with purely punctuation suffixes' do
     expect(described_class.extract('10.1130/!).",')).to be_empty
   end
+
+  it 'extracts DOIs with emoji in them' do
+    expect(described_class.extract('10.1234/🐔💩123🐔🐔🐔123')).to contain_exactly('10.1234/🐔💩123🐔🐔🐔123')
+  end
+
+  it 'extracts DOIs separated by Unicode whitespace' do
+    expect(described_class.extract('10.1234/foo  10.1234/bar')).to contain_exactly('10.1234/foo', '10.1234/bar')
+  end
 end

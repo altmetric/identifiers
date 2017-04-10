@@ -18,4 +18,8 @@ RSpec.describe Identifiers::PubmedId do
   it 'does not consider 0 as a valid Pubmed ID' do
     expect(described_class.extract("00000000")).to be_empty
   end
+
+  it 'extracts PubMed IDs separated by Unicode whitespace' do
+    expect(described_class.extract('123 456')).to contain_exactly('123', '456')
+  end
 end

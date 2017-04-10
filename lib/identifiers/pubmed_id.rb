@@ -2,7 +2,7 @@ module Identifiers
   class PubmedId
     def self.extract(str)
       str
-        .scan(/(?<=^|\s)0*(?!0)(\d+)(?=$|\s)/)
+        .scan(/(?<=^|[[:space:]])0*(?!0)(\d+)(?=$|[[:space:]])/)
         .flatten
     end
   end
