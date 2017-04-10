@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.8.0] - 2017-04-10
+### Added
+- Added support for ISBNs with digits separated by Unicode whitespace and dashes
+
 ## [0.7.0] - 2017-04-10
 ### Added
 - Added support for cleaning trailing punctuation from DOIs that also end in punctuation
@@ -42,3 +46,4 @@ project adheres to [Semantic Versioning](http://semver.org/).
 [0.5.0]: https://github.com/altmetric/identifiers/releases/tag/v0.5.0
 [0.6.0]: https://github.com/altmetric/identifiers/releases/tag/v0.6.0
 [0.7.0]: https://github.com/altmetric/identifiers/releases/tag/v0.7.0
+[0.8.0]: https://github.com/altmetric/identifiers/releases/tag/v0.8.0
