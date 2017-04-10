@@ -12,4 +12,10 @@ RSpec.describe Identifiers::Handle do
 
     expect(described_class.extract(str)).to contain_exactly('2117/83545it.ly/1UtXnTW')
   end
+
+  it 'extracts Handles separated by Unicode whitespace' do
+    str = '10149/596901 10251/79612'
+
+    expect(described_class.extract(str)).to contain_exactly('10149/596901', '10251/79612')
+  end
 end

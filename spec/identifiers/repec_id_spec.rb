@@ -12,4 +12,10 @@ RSpec.describe Identifiers::RepecId do
 
     expect(described_class.extract(str)).to contain_exactly('RePEc:wbk:wbpubs:2266', 'RePEc:inn:wpaper:2016-03')
   end
+
+  it 'extracts RePEc IDs separated by Unicode whitespace' do
+    str = "RePEc:wbk:wbpubs:2266 RePEc:inn:wpaper:2016-03"
+
+    expect(described_class.extract(str)).to contain_exactly('RePEc:wbk:wbpubs:2266', 'RePEc:inn:wpaper:2016-03')
+  end
 end

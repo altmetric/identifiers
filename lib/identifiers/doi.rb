@@ -12,18 +12,18 @@ module Identifiers
         \d{1,7}  # ISBN title enumerator and check digit
         |
         # DOI
-        \d{4,9} # Registrant code
-        /       # Prefix/suffix divider
-        \S+     # DOI suffix
+        \d{4,9}       # Registrant code
+        /             # Prefix/suffix divider
+        [^[:space:]]+ # DOI suffix
       )
     }x
     VALID_ENDING = /
       (?:
-        \p{^Punct}  # Non-punctuation character
+        \p{^Punct} # Non-punctuation character
         |
-        \(.+\)      # Balanced parentheses
+        \(.+\)     # Balanced parentheses
         |
-        2-\#        # Early Wiley DOI suffix
+        2-\#       # Early Wiley DOI suffix
       )
       \z
     /x
