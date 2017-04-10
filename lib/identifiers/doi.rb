@@ -33,11 +33,21 @@ module Identifiers
         .to_s
         .downcase
         .scan(PATTERN)
-        .map { |doi|
-          next doi if doi =~ VALID_ENDING
+        .map { |doi| strip_punctuation(doi) }
+        .compact
+    end
 
-          doi.sub(/\p{Punct}+\z/, '')
-        }
+    def self.extract_one(str)
+      match = str.to_s.downcase[PATTERN]
+      return unless match
+
+      strip_punctuation(match)
+    end
+
+    def self.strip_punctuation(doi)
+      return doi if doi =~ VALID_ENDING
+
+      extract_one(doi.sub(/\p{Punct}\z/, ''))
     end
   end
 end

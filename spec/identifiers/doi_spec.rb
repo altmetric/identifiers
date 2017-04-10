@@ -65,8 +65,8 @@ RSpec.describe Identifiers::DOI do
     expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502')
   end
 
-  it 'extracts particularly exotic DOIs' do
-    str = 'This is an example of an exotic DOI: 10.1002/(SICI)1096-8644(199601)99:1<135::AID-AJPA8>3.0.CO;2-#'
+  it 'extracts old Wiley DOIs' do
+    str = 'This is an example of an old Wiley DOI: 10.1002/(SICI)1096-8644(199601)99:1<135::AID-AJPA8>3.0.CO;2-#'
 
     expect(described_class.extract(str)).to contain_exactly('10.1002/(sici)1096-8644(199601)99:1<135::aid-ajpa8>3.0.co;2-#')
   end
@@ -75,5 +75,39 @@ RSpec.describe Identifiers::DOI do
     str = '(This is an example of a DOI: 10.1130/2013.2502)'
 
     expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502')
+  end
+
+  it 'discards trailing punctuation from old Wiley DOIs' do
+    str = 'This is an example of an old Wiley DOI: 10.1002/(SICI)1096-8644(199601)99:1<135::AID-AJPA8>3.0.CO;2-#",'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1002/(sici)1096-8644(199601)99:1<135::aid-ajpa8>3.0.co;2-#')
+  end
+
+  it 'discards trailing punctuation after balanced parentheses' do
+    str = 'This is an example of a DOI: This is an example of a DOI: 10.1130/2013.2502(04).'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502(04)')
+  end
+
+  it 'discards contiguous trailing punctuation after balanced parentheses' do
+    str = 'This is an example of a DOI: This is an example of a DOI: 10.1130/2013.2502(04).",'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502(04)')
+  end
+
+  it 'discards trailing Unicode punctuation after balanced parentheses' do
+    str = 'This is an example of a DOI: 10.1130/2013.2502(04)…",'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502(04)')
+  end
+
+  it 'discards contiguous trailing punctuation after unbalanced parentheses' do
+    str = '(This is an example of a DOI: 10.1130/2013.2502).",'
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502')
+  end
+
+  it 'does not extract DOIs with purely punctuation suffixes' do
+    expect(described_class.extract('10.1130/!).",')).to be_empty
   end
 end
