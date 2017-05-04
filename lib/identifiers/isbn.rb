@@ -9,21 +9,32 @@ module Identifiers
     end
 
     def self.extract_isbn_as(str)
-      extract_thirteen_digit_isbns(str.scan(REGEX_A).join("\n").tr('/.', ''))
+      isbn_as = str.to_s.scan(REGEX_A).join("\n").tr('/.', '')
+
+      extract_thirteen_digit_isbns(isbn_as)
     end
 
     def self.extract_thirteen_digit_isbns(str)
-      str.gsub(/(?<=\d)[\p{Pd}\p{Zs}](?=\d)/, '').scan(REGEX_13).select { |isbn| valid_isbn_13?(isbn) }
+      str
+        .to_s
+        .gsub(/(?<=\d)[\p{Pd}\p{Zs}](?=\d)/, '')
+        .scan(REGEX_13)
+        .select { |isbn| valid_isbn_13?(isbn) }
     end
 
     def self.extract_ten_digit_isbns(str)
-      str.gsub(/(?<=\d)[\p{Pd}\p{Zs}](?=[\dX])/i, '').scan(REGEX_10).select { |isbn| valid_isbn_10?(isbn) }.map { |isbn|
-        isbn.chop!
-        isbn.prepend('978')
-        isbn << isbn_13_check_digit(isbn).to_s
+      str
+        .to_s
+        .gsub(/(?<=\d)[\p{Pd}\p{Zs}](?=[\dX])/i, '')
+        .scan(REGEX_10)
+        .select { |isbn| valid_isbn_10?(isbn) }
+        .map { |isbn|
+          isbn.chop!
+          isbn.prepend('978')
+          isbn << isbn_13_check_digit(isbn).to_s
 
-        isbn
-      }
+          isbn
+        }
     end
 
     def self.isbn_13_check_digit(isbn)
@@ -54,7 +65,7 @@ module Identifiers
     end
 
     def self.digits_of(isbn)
-      isbn.each_char.map { |char| char == 'X' ? 10 : Integer(char) }.to_enum
+      isbn.to_s.each_char.map { |char| char == 'X' ? 10 : Integer(char) }.to_enum
     end
   end
 end

@@ -5,6 +5,12 @@ RSpec.describe Identifiers::ISBN do
     expect(described_class.extract('ISBN: 9780805069099')).to contain_exactly('9780805069099')
   end
 
+  it 'extracts ISBNs when given as a number' do
+    isbn = 9780805069099
+
+    expect(described_class.extract(isbn)).to contain_exactly('9780805069099')
+  end
+
   it 'normalizes 13-digit ISBNs' do
     str = "978-0-80-506909-9\n978-0-67-187919-8"
 

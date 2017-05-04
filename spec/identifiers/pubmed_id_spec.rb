@@ -22,4 +22,8 @@ RSpec.describe Identifiers::PubmedId do
   it 'extracts PubMed IDs separated by Unicode whitespace' do
     expect(described_class.extract('123 456')).to contain_exactly('123', '456')
   end
+
+  it 'considers Fixnum as potential PubmedIds too' do
+    expect(described_class.extract(123)).to contain_exactly('123')
+  end
 end
