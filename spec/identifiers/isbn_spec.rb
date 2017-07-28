@@ -17,6 +17,12 @@ RSpec.describe Identifiers::ISBN do
     expect(described_class.extract(str)).to contain_exactly('9780805069099', '9780671879198')
   end
 
+  it 'extracts multiple ISBN-13s separated by a space' do
+    str = '978-0-80-506909-9 978-0-67-187919-8'
+
+    expect(described_class.extract(str)).to contain_exactly('9780805069099', '9780671879198')
+  end
+
   it 'extracts ISBNs with hyphens' do
     expect(described_class.extract('ISBN: 978-0-80-506909-9')).to contain_exactly('9780805069099')
   end
@@ -43,6 +49,12 @@ RSpec.describe Identifiers::ISBN do
 
   it 'normalizes 10-digit ISBNs' do
     str = "0-8050-6909-7 \n 2-7594-0269-X"
+
+    expect(described_class.extract(str)).to contain_exactly('9780805069099', '9782759402694')
+  end
+
+  it 'extracts multiple 10-digit ISBNs separated by a space' do
+    str = '0-8050-6909-7 2-7594-0269-X'
 
     expect(described_class.extract(str)).to contain_exactly('9780805069099', '9782759402694')
   end
