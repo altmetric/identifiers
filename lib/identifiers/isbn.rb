@@ -13,6 +13,7 @@ module Identifiers
     /x
     ISBN_10_REGEXP = /
       \b
+      (?<!\p{Pd})       # Do not accidentally match a hyphenated ISBN-13
       (?:
         \d              # Digit
         [\p{Pd}\p{Zs}]? # Optional hyphenation
