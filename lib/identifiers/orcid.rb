@@ -1,11 +1,11 @@
 module Identifiers
   class ORCID
-    REGEX = /\b(?:\d{4}-){3}\d{3}[\dx]\b/i
+    REGEXP = /\b(?:\d{4}-){3}\d{3}[\dx]\b/i
 
     def self.extract(str)
       str
         .to_s
-        .scan(REGEX)
+        .scan(REGEXP)
         .select { |orcid| valid?(orcid) }
         .map(&:upcase)
     end
@@ -18,7 +18,7 @@ module Identifiers
     end
 
     def self.calculate_digit(str)
-      return unless str =~ REGEX
+      return unless str =~ REGEXP
 
       base_digits = str.chop.tr('-', '')
       total = 0
