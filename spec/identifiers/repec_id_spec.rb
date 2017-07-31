@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'identifiers/repec_id'
 
 RSpec.describe Identifiers::RepecId do

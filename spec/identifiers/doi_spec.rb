@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'identifiers/doi'
 
 RSpec.describe Identifiers::DOI do

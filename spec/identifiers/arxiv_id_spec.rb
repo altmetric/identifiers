@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'identifiers/arxiv_id'
 
 RSpec.describe Identifiers::ArxivId do

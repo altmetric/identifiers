@@ -1,6 +1,8 @@
+# encoding: utf-8
+
 module Identifiers
   class DOI
-    PATTERN = %r{
+    REGEXP = %r{
       \b
       10 # Directory indicator (always 10)
       \.
@@ -29,16 +31,11 @@ module Identifiers
     /x
 
     def self.extract(str)
-      str
-        .to_s
-        .downcase
-        .scan(PATTERN)
-        .map { |doi| strip_punctuation(doi) }
-        .compact
+      str.to_s.downcase.scan(REGEXP).map { |doi| strip_punctuation(doi) }.compact
     end
 
     def self.extract_one(str)
-      match = str.to_s.downcase[PATTERN]
+      match = str.to_s.downcase[REGEXP]
       return unless match
 
       strip_punctuation(match)
