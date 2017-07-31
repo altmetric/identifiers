@@ -15,5 +15,9 @@ RSpec.describe Identifiers::AdsBibcode do
     it 'does not extract Bibcodes from DOIs' do
       expect(described_class.extract('10.1097/01.ASW.0000443266.17665.19')).to be_empty
     end
+
+    it 'returns no Bibcode if nothing is given' do
+      expect(described_class.extract(nil)).to be_empty
+    end
   end
 end

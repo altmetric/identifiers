@@ -3,7 +3,11 @@ module Identifiers
     REGEX = /\b(?:\d{4}-){3}\d{3}[\dx]\b/i
 
     def self.extract(str)
-      str.scan(REGEX).select { |orcid| valid?(orcid) }.map(&:upcase)
+      str
+        .to_s
+        .scan(REGEX)
+        .select { |orcid| valid?(orcid) }
+        .map(&:upcase)
     end
 
     def self.valid?(str)

@@ -18,4 +18,8 @@ RSpec.describe Identifiers::Handle do
 
     expect(described_class.extract(str)).to contain_exactly('10149/596901', '10251/79612')
   end
+
+  it 'extracts nothing from empty arguments' do
+    expect(described_class.extract(nil)).to be_empty
+  end
 end
