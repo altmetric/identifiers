@@ -51,7 +51,8 @@ module Identifiers
         .to_s
         .scan(ISBN_10_REGEXP)
         .map { |isbn| isbn.gsub(/[\p{Pd}\p{Zs}]/, '') }
-        .select { |isbn| valid_isbn_10?(isbn) }.map { |isbn|
+        .select { |isbn| valid_isbn_10?(isbn) }
+        .map { |isbn|
           isbn.chop!
           isbn.prepend('978')
           isbn << isbn_13_check_digit(isbn).to_s
