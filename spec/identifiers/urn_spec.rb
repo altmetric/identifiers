@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'identifiers/urn'
 
 RSpec.describe Identifiers::URN do

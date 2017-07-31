@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'identifiers/pubmed_id'
 
 RSpec.describe Identifiers::PubmedId do

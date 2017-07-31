@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Identifiers
   class DOI
     REGEXP = %r{

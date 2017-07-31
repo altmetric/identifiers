@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'identifiers/isbn'
 
 RSpec.describe Identifiers::ISBN do

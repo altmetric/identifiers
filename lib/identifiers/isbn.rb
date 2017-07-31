@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Identifiers
   class ISBN
     ISBN_13_REGEXP = /
@@ -56,7 +54,7 @@ module Identifiers
         .select { |isbn| valid_isbn_10?(isbn) }
         .map { |isbn|
           isbn.chop!
-          isbn.insert(0, '978')
+          isbn.prepend('978')
           isbn << isbn_13_check_digit(isbn).to_s
 
           isbn
@@ -64,7 +62,7 @@ module Identifiers
     end
 
     def self.isbn_13_check_digit(isbn)
-      sum = digits_of(isbn).zip([1, 3].cycle).map { |digit, weight| digit * weight }.reduce(&:+)
+      sum = digits_of(isbn).zip([1, 3].cycle).map { |digit, weight| digit * weight }.reduce(:+)
       check_digit = 10 - (sum % 10)
 
       if check_digit == 10
@@ -77,7 +75,7 @@ module Identifiers
     def self.valid_isbn_13?(isbn)
       return false unless isbn =~ ISBN_13_REGEXP
 
-      result = digits_of(isbn).zip([1, 3].cycle).map { |digit, weight| digit * weight }.reduce(&:+)
+      result = digits_of(isbn).zip([1, 3].cycle).map { |digit, weight| digit * weight }.reduce(:+)
 
       (result % 10).zero?
     end
@@ -85,7 +83,7 @@ module Identifiers
     def self.valid_isbn_10?(isbn)
       return false unless isbn =~ ISBN_10_REGEXP
 
-      result = digits_of(isbn).with_index.map { |digit, weight| digit * weight.succ }.reduce(&:+)
+      result = digits_of(isbn).with_index.map { |digit, weight| digit * weight.succ }.reduce(:+)
 
       (result % 11).zero?
     end

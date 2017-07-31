@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'identifiers/handle'
 
 RSpec.describe Identifiers::Handle do
