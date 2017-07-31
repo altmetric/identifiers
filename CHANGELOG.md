@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.9.0] - 2017-07-31
+### Added
+- Support extraction of multiple ISBNs separated by a single space
+- Support passing nil to any of the extract methods
+
 ## [0.8.1] - 2017-04-10
 ### Fixed
 - Fixed extraction of multiple DOIs separated by Unicode whitespace
@@ -52,3 +57,4 @@ project adheres to [Semantic Versioning](http://semver.org/).
 [0.7.0]: https://github.com/altmetric/identifiers/releases/tag/v0.7.0
 [0.8.0]: https://github.com/altmetric/identifiers/releases/tag/v0.8.0
 [0.8.1]: https://github.com/altmetric/identifiers/releases/tag/v0.8.1
+[0.9.0]: https://github.com/altmetric/identifiers/releases/tag/v0.9.0
