@@ -94,4 +94,60 @@ RSpec.describe Identifiers::ISBN do
   it 'does not extract ISBN-10s from space-separated ISBN-13s' do
     expect(described_class.extract('978 0 309 57079 4')).to contain_exactly('9780309570794')
   end
+
+  describe '#initialize' do
+    it 'allows a valid ISBN' do
+      expect(described_class.new('2-7594-0269-X')).to be_an_instance_of(described_class)
+    end
+
+    it 'fails when a not valid ISBN is supplied' do
+      expect { described_class.new('foobar') }.to raise_error(described_class::InvalidISBNError, 'bad ISBN(is not ISBN?): foobar')
+    end
+  end
+
+  describe '#isbn10?' do
+    it 'returns true for 10-digit ISBNs' do
+      isbn = described_class.new('2-7594-0269-X')
+
+      expect(isbn.isbn10?).to eq(true)
+    end
+
+    it 'returns false for 13-digit ISBNs' do
+      isbn = described_class.new('9780309570794')
+
+      expect(isbn.isbn10?).to eq(false)
+    end
+  end
+
+  describe '#isbn13?' do
+    it 'returns true for 13-digit ISBNs' do
+      isbn = described_class.new('9780309570794')
+
+      expect(isbn.isbn13?).to eq(true)
+    end
+
+    it 'returns false for 10-digit ISBNs' do
+      isbn = described_class.new('2-7594-0269-X')
+
+      expect(isbn.isbn13?).to eq(false)
+    end
+  end
+
+  describe '#isbn10' do
+    it 'returns the ISBN in 10-digit format' do
+      isbn = described_class.new('0-309-57079-4')
+
+      expect(isbn.isbn10).to eq('0-309-57079-4')
+    end
+
+    it 'returns error when the ISBN cannot be converted'
+  end
+
+  describe '#isbn13' do
+    it 'returns the ISBN in 13-digit format'
+  end
+
+  describe '#normalize' do
+    it 'returns the ISBN as 13-digit without dashes or spaces'
+  end
 end

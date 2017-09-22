@@ -3,7 +3,7 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.example_status_persistence_file_path = "spec/examples.txt"
   config.disable_monkey_patching!
-  config.warnings = true
+  config.warnings = false
   config.order = :random
   config.default_formatter = 'doc' if config.files_to_run.one?
   Kernel.srand config.seed

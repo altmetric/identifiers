@@ -1,5 +1,7 @@
 module Identifiers
   class ISBN
+    InvalidISBNError = Class.new(StandardError)
+
     ISBN_13_REGEXP = /
       \b
       97[89]            # ISBN (GS1) Bookland prefix
@@ -94,6 +96,53 @@ module Identifiers
 
     def self.digits_of(isbn)
       isbn.to_s.each_char.map { |char| char == 'X' ? 10 : Integer(char) }.to_enum
+    end
+
+    attr_reader :isbn
+
+    def initialize(str)
+      @isbn = parse(strip_separation_chars(str))
+      fail InvalidISBNError, "bad ISBN(is not ISBN?): #{str}" unless isbn
+    end
+
+    def isbn10?
+      ISBN.valid_isbn_10?(isbn)
+    end
+
+    def isbn13?
+      ISBN.valid_isbn_13?(isbn)
+    end
+
+    def isbn10
+      return add_dashes10(isbn) if isbn10?
+      # TODO convert isbn13
+    end
+
+    def isbn13
+      return add_dashes13(isbn) if isbn13?
+      # TODO convert isbn10
+    end
+
+    def normalize
+      ISBN.extract(isbn).first
+    end
+
+    private
+
+    def parse(str)
+      return str if ISBN.valid_isbn_13?(str) || ISBN.valid_isbn_10?(str)
+    end
+
+    def strip_separation_chars(str)
+      str.gsub(/[\p{Pd}\p{Zs}]/, '')
+    end
+
+    def add_dashes10(str)
+      "#{str[0]}-#{str[1..3]}-#{str[4..8]}-#{str[9]}"
+    end
+
+    def add_dashes13(str)
+      "#{str[0..2]}-#{str[3]}-#{str[4..6]}-#{str[7..11]}-#{str[12]}"
     end
   end
 end
