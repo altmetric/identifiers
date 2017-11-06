@@ -1,6 +1,7 @@
 require 'identifiers/isbn'
 
 RSpec.describe Identifiers::ISBN do
+
   it 'extracts a ISBN' do
     expect(described_class.extract('ISBN: 9780805069099')).to contain_exactly('9780805069099')
   end
@@ -93,5 +94,28 @@ RSpec.describe Identifiers::ISBN do
 
   it 'does not extract ISBN-10s from space-separated ISBN-13s' do
     expect(described_class.extract('978 0 309 57079 4')).to contain_exactly('9780309570794')
+  end
+
+  context 'without isbn_strip' do
+    let(:isbn_hyphen) { '978-92-95055-02-5' }
+    let(:isbn_spaces) { '978 92 95055 02 5' }
+
+    it 'extracts ISBNs with hyphens, with option to retain hyphens' do
+      expect(described_class.extract("ISBN: #{isbn_hyphen}", strip: false)).to contain_exactly(isbn_hyphen)
+    end
+
+    it 'extracts ISBNs with spaces, with option to retain spaces' do
+      expect(described_class.extract("ISBN: #{isbn_spaces}", strip: false)).to contain_exactly(isbn_spaces)
+    end
+
+    it 'extracts many ISBNs with hyphens, with option to retain hyphens' do
+      result = described_class.extract("#{isbn_hyphen} #{isbn_hyphen}", strip: false)
+      expect(result).to contain_exactly(isbn_hyphen, isbn_hyphen)
+    end
+
+    it 'extracts many ISBNs with spaces, with option to retain spaces' do
+      result = described_class.extract("#{isbn_spaces} #{isbn_spaces}", strip: false)
+      expect(result).to contain_exactly(isbn_spaces, isbn_spaces)
+    end
   end
 end
