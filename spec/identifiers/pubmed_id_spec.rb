@@ -41,6 +41,12 @@ RSpec.describe Identifiers::PubmedId do
     expect(described_class.extract(url)).to contain_exactly('123456')
   end
 
+  it 'extracts zero leading PubMed IDs from a PubMed URL with query parameters' do
+    url = 'https://www.ncbi.nlm.nih.gov/pubmed/00123456?hi=hello&goodbye=bye'
+
+    expect(described_class.extract(url)).to contain_exactly('123456')
+  end
+
   it 'extracts both number and URLs PubMed IDs' do
     url = 'PubMed ID: 112233 another: https://www.ncbi.nlm.nih.gov/pubmed/123456'
 
