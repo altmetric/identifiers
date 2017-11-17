@@ -29,6 +29,12 @@ RSpec.describe Identifiers::PubmedId do
     expect(described_class.extract(url)).to contain_exactly('123456')
   end
 
+  it 'extracts PubMed IDs from a PubMed mobile URL' do
+    url = 'https://www.ncbi.nlm.nih.gov/m/pubmed/123456'
+
+    expect(described_class.extract(url)).to contain_exactly('123456')
+  end
+
   it 'extracts PubMed IDs from a PubMed URL with hash parameters' do
     url = 'https://www.ncbi.nlm.nih.gov/pubmed/123456#cm6191871_69589'
 
