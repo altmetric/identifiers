@@ -80,4 +80,20 @@ RSpec.describe Identifiers::PubmedId do
   it 'considers Fixnum as potential PubMed IDs too' do
     expect(described_class.extract(123)).to contain_exactly('123')
   end
+
+  it 'extracts PubMed IDs with pmid scheme' do
+    expect(described_class.extract('pmid:123')).to contain_exactly('123')
+  end
+
+  it 'strips leading zeroes from pmid scheme' do
+    expect(described_class.extract('pmid:000123')).to contain_exactly('123')
+  end
+
+  it 'extracts PubMed IDs with info pmid scheme' do
+    expect(described_class.extract('info:pmid/123')).to contain_exactly('123')
+  end
+
+  it 'strips leading zeroes from info pmid scheme' do
+    expect(described_class.extract('info:pmid/000123')).to contain_exactly('123')
+  end
 end
