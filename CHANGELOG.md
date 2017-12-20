@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.10.0] - 2017-12-20
+### Added
+- Extract PubMed IDs from URLs (e.g https://www.ncbi.nlm.nih.gov/pubmed/123456) and URIs with schemes `pmid:` and `info:pmid`
+
 ## [0.9.1] - 2017-08-01
 ### Fixed
 - Don't extract duplicate ISBN-10s from within ISBN-13s
@@ -63,3 +67,4 @@ project adheres to [Semantic Versioning](http://semver.org/).
 [0.8.1]: https://github.com/altmetric/identifiers/releases/tag/v0.8.1
 [0.9.0]: https://github.com/altmetric/identifiers/releases/tag/v0.9.0
 [0.9.1]: https://github.com/altmetric/identifiers/releases/tag/v0.9.1
+[0.10.0]: https://github.com/altmetric/identifiers/releases/tag/v0.10.0
