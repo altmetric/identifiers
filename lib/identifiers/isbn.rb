@@ -1,5 +1,9 @@
+require 'pry-byebug'
+
 module Identifiers
   class ISBN
+    InvalidISBNError = Class.new(StandardError)
+
     ISBN_13_REGEXP = /
       \b
       97[89]            # ISBN (GS1) Bookland prefix
@@ -35,34 +39,48 @@ module Identifiers
     }x
 
     def self.extract(str)
-      extract_isbn_as(str) + extract_thirteen_digit_isbns(str) + extract_ten_digit_isbns(str)
+      scan(str).map { |isbn| ISBN.new(isbn).normalize.to_s }
+    end
+
+    def self.scan(str)
+      scan_isbn_as(str) + scan_thirteen_digit_isbns(str) + scan_ten_digit_isbns(str)
     end
 
     def self.extract_isbn_as(str)
       extract_thirteen_digit_isbns(str.to_s.scan(ISBN_A_REGEXP).join("\n").tr('/.', ''))
     end
 
+    def self.scan_isbn_as(str)
+      scan_thirteen_digit_isbns(str.to_s.scan(ISBN_A_REGEXP).join("\n").tr('/.', ''))
+    end
+
     def self.extract_thirteen_digit_isbns(str)
+      scan_thirteen_digit_isbns(str).map { |isbn| ISBN.new(str).normalize.to_s }
+    end
+
+    def self.scan_thirteen_digit_isbns(str)
       str
         .to_s
         .scan(ISBN_13_REGEXP)
-        .map { |isbn| isbn.gsub(/[\p{Pd}\p{Zs}]/, '') }
         .select { |isbn| valid_isbn_13?(isbn) }
     end
 
     def self.extract_ten_digit_isbns(str)
+      scan_ten_digit_isbns(str).map { |isbn|
+        isbn = ISBN.new(isbn).normalize.to_s
+        isbn.chop!
+        isbn.prepend('978')
+        isbn << isbn_13_check_digit(isbn).to_s
+
+        isbn
+      }
+    end
+
+    def self.scan_ten_digit_isbns(str)
       str
         .to_s
         .scan(ISBN_10_REGEXP)
-        .map { |isbn| isbn.gsub(/[\p{Pd}\p{Zs}]/, '') }
         .select { |isbn| valid_isbn_10?(isbn) }
-        .map { |isbn|
-          isbn.chop!
-          isbn.prepend('978')
-          isbn << isbn_13_check_digit(isbn).to_s
-
-          isbn
-        }
     end
 
     def self.isbn_13_check_digit(isbn)
@@ -93,7 +111,30 @@ module Identifiers
     end
 
     def self.digits_of(isbn)
-      isbn.to_s.each_char.map { |char| char == 'X' ? 10 : Integer(char) }.to_enum
+      ISBN.new(isbn).normalize.to_s.each_char.map { |char| char == 'X' ? 10 : Integer(char) }.to_enum
+    end
+
+    attr_reader :isbn
+
+    def initialize(isbn)
+      isbn = isbn.to_s
+      fail InvalidISBNError, "bad ISBN(is not ISBN?): #{isbn}" if not_valid?(isbn)
+
+      @isbn = isbn
+    rescue
+      # binding.pry
+    end
+
+    def not_valid?(str)
+      str.scan(ISBN_A_REGEXP).empty? && str.scan(ISBN_13_REGEXP).empty? && str.scan(ISBN_10_REGEXP).empty?
+    end
+
+    def normalize
+      ISBN.new(isbn.gsub(/[\p{Pd}\p{Zs}]/, ''))
+    end
+
+    def to_s
+      isbn
     end
   end
 end
