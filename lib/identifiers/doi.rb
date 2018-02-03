@@ -29,20 +29,15 @@ module Identifiers
     /x
 
     def self.extract(str)
-      str.to_s.downcase.scan(REGEXP).map { |doi| strip_punctuation(doi) }.compact
+      str.to_s.downcase.scan(REGEXP).map { |doi| extract_one(doi) }.compact
     end
 
     def self.extract_one(str)
-      match = str.to_s.downcase[REGEXP]
-      return unless match
+      while (match = str.to_s.downcase[REGEXP])
+        break match if match =~ VALID_ENDING
 
-      strip_punctuation(match)
-    end
-
-    def self.strip_punctuation(doi)
-      return doi if doi =~ VALID_ENDING
-
-      extract_one(doi.sub(/\p{Punct}\z/, ''))
+        str = match.sub(/\p{Punct}\z/, '')
+      end
     end
   end
 end
