@@ -2,13 +2,15 @@ module Identifiers
   class ISBN
     ISBN_13_REGEXP = /
       \b
-      97[89]            # ISBN (GS1) Bookland prefix
-      [\p{Pd}\p{Zs}]?   # Optional hyphenation
-      (?:
-        \d              # Digit
-        [\p{Pd}\p{Zs}]? # Optional hyphenation
-      ){9}
-      \d                # Check digit
+      (
+        97[89]            # ISBN (GS1) Bookland prefix
+        ([\p{Pd}\p{Zs}])? # Optional hyphenation
+        (?:
+          \d              # Digit
+          \2?             # Optional hyphenation
+        ){9}
+        \d                # Check digit
+      )
       \b
     /x
     ISBN_10_REGEXP = /
@@ -17,11 +19,15 @@ module Identifiers
         [\p{Pd}\p{Zs}]
       )
       \b
-      (?:
-        \d              # Digit
-        [\p{Pd}\p{Zs}]? # Optional hyphenation
-      ){9}
-      [\dX]             # Check digit
+      (
+        \d                # Digit
+        ([\p{Pd}\p{Zs}])? # Optional hyphenation
+        (?:
+          \d              # Digit
+          \2?             # Optional hyphenation
+        ){8}
+        [\dX]             # Check digit
+      )
       \b
     /x
     ISBN_A_REGEXP = %r{
@@ -46,7 +52,7 @@ module Identifiers
       str
         .to_s
         .scan(ISBN_13_REGEXP)
-        .map { |isbn| isbn.gsub(/[\p{Pd}\p{Zs}]/, '') }
+        .map { |isbn, hyphen| isbn.delete(hyphen.to_s) }
         .select { |isbn| valid_isbn_13?(isbn) }
     end
 
@@ -54,7 +60,7 @@ module Identifiers
       str
         .to_s
         .scan(ISBN_10_REGEXP)
-        .map { |isbn| isbn.gsub(/[\p{Pd}\p{Zs}]/, '') }
+        .map { |isbn, hyphen| isbn.delete(hyphen.to_s) }
         .select { |isbn| valid_isbn_10?(isbn) }
         .map { |isbn|
           isbn.chop!
