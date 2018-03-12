@@ -94,4 +94,12 @@ RSpec.describe Identifiers::ISBN do
   it 'does not extract ISBN-10s from space-separated ISBN-13s' do
     expect(described_class.extract('978 0 309 57079 4')).to contain_exactly('9780309570794')
   end
+
+  it 'does not extract ISBN-13s from strings with inconsistent hyphenation' do
+    expect(described_class.extract('978-0 80-506909 9')).to be_empty
+  end
+
+  it 'does not extract ISBN-10s from strings with inconsistent hyphenation' do
+    expect(described_class.extract('0-8050 6909-7')).to be_empty
+  end
 end
