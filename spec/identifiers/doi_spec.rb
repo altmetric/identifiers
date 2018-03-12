@@ -107,6 +107,12 @@ RSpec.describe Identifiers::DOI do
     expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502')
   end
 
+  it 'does not overflow when given lots of trailing punctuation' do
+    str = '10.1130/2013.2502' + ('.' * 10000)
+
+    expect(described_class.extract(str)).to contain_exactly('10.1130/2013.2502')
+  end
+
   it 'does not extract DOIs with purely punctuation suffixes' do
     expect(described_class.extract('10.1130/!).",')).to be_empty
   end
