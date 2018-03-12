@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.11.0] - 2018-03-12
+## Fixed
+- Stricter ISBN extraction: consistent hyphenation (#27) and correct number of groups (#28)
+- Prevent stack overflow when extracting DOIS (#25)
+
 ## [0.10.0] - 2017-12-20
 ### Added
 - Extract PubMed IDs from URLs (e.g https://www.ncbi.nlm.nih.gov/pubmed/123456) and URIs with schemes `pmid:` and `info:pmid`
@@ -68,3 +73,4 @@ project adheres to [Semantic Versioning](http://semver.org/).
 [0.9.0]: https://github.com/altmetric/identifiers/releases/tag/v0.9.0
 [0.9.1]: https://github.com/altmetric/identifiers/releases/tag/v0.9.1
 [0.10.0]: https://github.com/altmetric/identifiers/releases/tag/v0.10.0
+[0.11.0]: https://github.com/altmetric/identifiers/releases/tag/v0.11.0

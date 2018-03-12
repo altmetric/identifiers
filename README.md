@@ -18,7 +18,7 @@ Collection of utilities related to the extraction, validation and normalization 
 Add this line to your application's `Gemfile`:
 
 ```ruby
-gem 'identifiers', '~> 0.9'
+gem 'identifiers', '~> 0.11'
 ```
 
 And then execute:
@@ -79,6 +79,6 @@ We also maintain [a version of this library for PHP](https://github.com/altmetri
 
 ## License
 
-Copyright © 2016-2017 Altmetric LLP
+Copyright © 2016-2018 Altmetric LLP
 
 Distributed under the [MIT License](http://opensource.org/licenses/MIT).
