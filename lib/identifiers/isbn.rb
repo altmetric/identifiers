@@ -52,6 +52,7 @@ module Identifiers
       str
         .to_s
         .scan(ISBN_13_REGEXP)
+        .select { |isbn, hyphen| !hyphen || isbn.count(hyphen) == 4 }
         .map { |isbn, hyphen| isbn.delete(hyphen.to_s) }
         .select { |isbn| valid_isbn_13?(isbn) }
     end
@@ -60,6 +61,7 @@ module Identifiers
       str
         .to_s
         .scan(ISBN_10_REGEXP)
+        .select { |isbn, hyphen| !hyphen || isbn.count(hyphen) == 3 }
         .map { |isbn, hyphen| isbn.delete(hyphen.to_s) }
         .select { |isbn| valid_isbn_10?(isbn) }
         .map { |isbn|

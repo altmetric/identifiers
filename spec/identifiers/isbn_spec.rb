@@ -102,4 +102,20 @@ RSpec.describe Identifiers::ISBN do
   it 'does not extract ISBN-10s from strings with inconsistent hyphenation' do
     expect(described_class.extract('0-8050 6909-7')).to be_empty
   end
+
+  it 'does not extract ISBN-13s if they have more than five groups' do
+    expect(described_class.extract('978-0-80-506-909-9')).to be_empty
+  end
+
+  it 'does not extract ISBN-13s if they have less than five groups' do
+    expect(described_class.extract('978-0-80506909-9')).to be_empty
+  end
+
+  it 'does not extract ISBN-10s if they have more than four groups' do
+    expect(described_class.extract('0-8050-69-09-7')).to be_empty
+  end
+
+  it 'does not extract ISBN-10s if they have less than four groups' do
+    expect(described_class.extract('0-80506909-7')).to be_empty
+  end
 end
