@@ -124,4 +124,8 @@ RSpec.describe Identifiers::DOI do
   it 'extracts DOIs separated by Unicode whitespace' do
     expect(described_class.extract('10.1234/foo  10.1234/bar')).to contain_exactly('10.1234/foo', '10.1234/bar')
   end
+
+  it 'does not extract DOIs with extra digits prefixed' do
+    expect(described_class.extract('110.1234/foo')).to be_empty
+  end
 end
