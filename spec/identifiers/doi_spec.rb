@@ -66,9 +66,9 @@ RSpec.describe Identifiers::DOI do
   end
 
   it 'extracts old Wiley DOIs' do
-    str = 'This is an example of an old Wiley DOI: 10.1002/(SICI)1096-8644(199601)99:1<135::AID-AJPA8>3.0.CO;2-#'
+    str = 'This is an example of an old Wiley DOI: 10.1002/(SICI)1096-8644(199601)99:1<135::AID-AJPA8>3.0.CO;2-# 10.1002/(sici)1099-0690(199806)1998:6<1071::aid-ejoc1071>3.0.co;2-5'
 
-    expect(described_class.extract(str)).to contain_exactly('10.1002/(sici)1096-8644(199601)99:1<135::aid-ajpa8>3.0.co;2-#')
+    expect(described_class.extract(str)).to contain_exactly('10.1002/(sici)1096-8644(199601)99:1<135::aid-ajpa8>3.0.co;2-#', '10.1002/(sici)1099-0690(199806)1998:6<1071::aid-ejoc1071>3.0.co;2-5')
   end
 
   it 'does not extract a closing parenthesis if not part of the DOI' do
@@ -123,5 +123,29 @@ RSpec.describe Identifiers::DOI do
 
   it 'extracts DOIs separated by Unicode whitespace' do
     expect(described_class.extract('10.1234/foo  10.1234/bar')).to contain_exactly('10.1234/foo', '10.1234/bar')
+  end
+
+  it 'does not extract DOIs with extra digits prefixed' do
+    expect(described_class.extract('110.1234/foo')).to be_empty
+  end
+
+  it 'extracts DOIs from a string with trailing closing parentheses' do
+    expect(described_class.extract('10.1130/2013.2502(04))')).to contain_exactly('10.1130/2013.2502(04)')
+  end
+
+  it 'extracts DOIs from a string with multiple trailing closing parentheses' do
+    expect(described_class.extract('10.1130/2013.2502(04))))')).to contain_exactly('10.1130/2013.2502(04)')
+  end
+
+  it 'extracts DOIs with parentheses within the suffix' do
+    expect(described_class.extract('10.1016/0005-2744(70)90072-0')).to contain_exactly('10.1016/0005-2744(70)90072-0')
+  end
+
+  it 'extracts all DOIs from a Crossref sample' do
+    Pathname.new(__FILE__).join('..', '..', 'fixtures', 'dois.txt').each_line do |doi|
+      doi.chomp!
+
+      expect(described_class.extract(doi)).to contain_exactly(doi)
+    end
   end
 end
