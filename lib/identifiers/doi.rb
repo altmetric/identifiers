@@ -20,7 +20,7 @@ module Identifiers
           |
           [^[:space:]]+                         # Suffix...
           \([^[:space:])]+\)                    # Ending in balanced parentheses...
-          (?![^[:space:]\p{P}])                 # Not followed by more suffix or punctuation
+          (?![^[:space:]\p{P}])                 # Not followed by more suffix
           |
           [^[:space:]]+(?![[:space:]])\p{^P}    # Suffix ending in non-punctuation
         )
