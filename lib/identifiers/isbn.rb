@@ -20,12 +20,12 @@ module Identifiers
       )
       \b
       (
-        \d                # Digit
+        \d{1,5}           # Registration group identifier
         ([\p{Pd}\p{Zs}])? # Optional hyphenation
         (?:
           \d              # Digit
           \2?             # Optional hyphenation
-        ){8}
+        ){4,8}
         [\dX]             # Check digit
       )
       \b
@@ -85,7 +85,7 @@ module Identifiers
     end
 
     def self.valid_isbn_13?(isbn)
-      return false unless isbn =~ ISBN_13_REGEXP
+      return false unless String(isbn).length == 13 && isbn =~ ISBN_13_REGEXP
 
       result = digits_of(isbn).zip([1, 3].cycle).map { |digit, weight| digit * weight }.reduce(:+)
 
@@ -93,7 +93,7 @@ module Identifiers
     end
 
     def self.valid_isbn_10?(isbn)
-      return false unless isbn =~ ISBN_10_REGEXP
+      return false unless String(isbn).length == 10 && isbn =~ ISBN_10_REGEXP
 
       result = digits_of(isbn).with_index.map { |digit, weight| digit * weight.succ }.reduce(:+)
 
