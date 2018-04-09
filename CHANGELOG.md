@@ -2,12 +2,17 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.12.1] - 2018-04-09
+### Fixed
+- Restored support for extracting hyphenated ISBN-10s with registration group
+  identifiers longer than one digit
+
 ## [0.12.0] - 2018-04-06
 ### Added
 - Added support for extracting more old Wiley DOIs
 
 ### Changed
-- Performance improvements when extracting DOIs with trailing punctuation.
+- Performance improvements when extracting DOIs with trailing punctuation
 
 ## [0.11.0] - 2018-03-12
 ### Fixed
@@ -61,7 +66,7 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.2.0] - 2016-11-01
 ### Changed
-- Strip leading 0s from Pubmed IDs. 0 is no longer a valid Pubmed ID.
+- Strip leading 0s from Pubmed IDs. 0 is no longer a valid Pubmed ID
 
 ## [0.1.0] - 2016-10-21
 ### Added
@@ -82,3 +87,4 @@ project adheres to [Semantic Versioning](http://semver.org/).
 [0.10.0]: https://github.com/altmetric/identifiers/releases/tag/v0.10.0
 [0.11.0]: https://github.com/altmetric/identifiers/releases/tag/v0.11.0
 [0.12.0]: https://github.com/altmetric/identifiers/releases/tag/v0.12.0
+[0.12.1]: https://github.com/altmetric/identifiers/releases/tag/v0.12.1
