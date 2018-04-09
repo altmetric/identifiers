@@ -118,4 +118,9 @@ RSpec.describe Identifiers::ISBN do
   it 'does not extract ISBN-10s if they have less than four groups' do
     expect(described_class.extract('0-80506909-7')).to be_empty
   end
+
+  it 'extracts ISBN-10s with variable width registration group identifiers' do
+    expect(described_class.extract('99921-58-10-7 9971-5-0210-0 960-425-059-0 80-902734-1-6'))
+      .to contain_exactly('9789992158104', '9789971502102', '9789604250592', '9788090273412')
+  end
 end
