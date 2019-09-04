@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.13.0] - 2019-09-04
+### Added
+- Added new mode to the DOI extraction, so that it doesn't strip trailing
+  periods when in `strict` mode
+
 ## [0.12.1] - 2018-04-09
 ### Fixed
 - Restored support for extracting hyphenated ISBN-10s with registration group
@@ -88,3 +93,4 @@ project adheres to [Semantic Versioning](http://semver.org/).
 [0.11.0]: https://github.com/altmetric/identifiers/releases/tag/v0.11.0
 [0.12.0]: https://github.com/altmetric/identifiers/releases/tag/v0.12.0
 [0.12.1]: https://github.com/altmetric/identifiers/releases/tag/v0.12.1
+[0.13.0]: https://github.com/altmetric/identifiers/releases/tag/v0.13.0
