@@ -32,16 +32,32 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-Identifiers::DOI.extract('example: 10.123/abcd.efghi')
-# => ["10.123/abcd.efghi"]
+Identifiers::DOI.extract('example: 10.1234/5678.ABC')
+# => ["10.1234/5678.abc"]
 
 Identifiers::DOI.extract('no DOIs here')
 # => []
 
 Identifiers::URN.new('urn:abc:123')
 # => #<URN:0x007ff11c13d930 @urn="urn:abc:123", @nid="abc", @nss="123">
+
 Identifiers::URN('urn:abc:123')
 # => #<URN:0x007ff11c0ff568 @urn="urn:abc:123", @nid="abc", @nss="123">
+```
+
+A small percentage of DOIs end in trailing `.`. However, having trailing periods
+being returned by the default extraction method would possibly return quite a few
+false positives.
+`DOI.extract` accepts a `strict` option, which can be set to true if we prefer to
+return DOIs ending in `.`. By default, this option is set to `false`, which strips
+any trailing `.`:
+
+```ruby
+Identifiers::DOI.extract('example: 10.1234/5678.abc.', strict: true)
+# => ["10.1234/5678.abc."]
+
+Identifiers::DOI.extract('example: 10.1234/5678.abc.')
+# => ["10.1234/5678.abc"]
 ```
 
 ## By identifier

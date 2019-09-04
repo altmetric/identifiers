@@ -24,11 +24,17 @@ module Identifiers
           |
           [^[:space:]]+(?![[:space:]])\p{^P}    # Suffix ending in non-punctuation
         )
+        \.{0,3}                                 # Allow a DOI to end with up to 3 .
       )
     }x
 
-    def self.extract(str)
-      str.to_s.downcase.scan(REGEXP)
+    def self.extract(str, options = {})
+      strict = options.fetch(:strict, false)
+
+      dois = str.to_s.downcase.scan(REGEXP)
+      dois = dois.map { |doi| doi.gsub(/\.+$/, '') } unless strict
+
+      dois
     end
   end
 end
