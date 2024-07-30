@@ -39,9 +39,23 @@ module Identifiers
       \d{1,7}   # ISBN title enumerator and check digit
       \b
     }x
+    TEXT_AFTER_PREFIX_REGEXP = ':?\s*(\d.*)$'.freeze
 
-    def self.extract(str)
+    def self.extract(str , prefixes = [])
+      str = match_strings_with_prefix(str , prefixes) if prefixes.any?
+
       extract_isbn_as(str) + extract_thirteen_digit_isbns(str) + extract_ten_digit_isbns(str)
+    end
+
+    def self.match_strings_with_prefix(str, prefixes)
+      prefix_regexp = prefixes.join('|')
+
+      str
+        .to_s
+        .scan(/(#{prefix_regexp})#{TEXT_AFTER_PREFIX_REGEXP}/i)
+        .inject('') do |acum, (_prefix, match)|
+          acum += "#{match} \n "
+        end
     end
 
     def self.extract_isbn_as(str)

@@ -123,4 +123,29 @@ RSpec.describe Identifiers::ISBN do
     expect(described_class.extract('99921-58-10-7 9971-5-0210-0 960-425-059-0 80-902734-1-6'))
       .to contain_exactly('9789992158104', '9789971502102', '9789604250592', '9788090273412')
   end
+
+  context 'when passing prefixes' do
+    it 'extracts only prefixed ISBNs' do
+      text = "ISBN:9789992158104  \n ISBN-10 9789971502102 \n IsbN-13: 9789604250592 \n 9788090273412"
+      prefixes = ['IsBn', 'ISBN-10', 'ISBN-13']
+
+      expect(described_class.extract(text, prefixes))
+        .to contain_exactly('9789992158104', '9789971502102', '9789604250592')
+    end
+
+    it 'does not extract ISBNs with different prefixes' do
+      text = "ISBN:9789992158104 \n ISBN-10 9789971502102  \n IsbN-13: 9789604250592 \n 9788090273412"
+      prefixes = ['IsBn', 'ISBN-10']
+
+      expect(described_class.extract(text, prefixes))
+        .to contain_exactly('9789992158104', '9789971502102')
+    end
+
+    it 'does not extract ISBNs without prefixes' do
+      text = "9789992158104 9789971502102 9789604250592 \n 9788090273412"
+      prefixes = ['IsBn', 'ISBN-10', 'ISBN-13']
+
+      expect(described_class.extract(text, prefixes)).to be_empty
+    end
+  end
 end
