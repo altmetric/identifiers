@@ -77,6 +77,17 @@ Identifiers::RepecId.extract('')
 Identifiers::URN.extract('')
 ```
 
+For `ISBN`s `.extract`, you can pass an array of prefixes as an optional parameter when you want to exclude matches that are not preceded by those prefixes (it is case insensitive and ignores ':' and extra whitespaces):
+
+```ruby
+Identifiers::ISBN.extract(
+  "IsBN:9789992158104  \n isbn-10 9789971502102 \n ISBN-13: 9789604250592 \n 9788090273412",
+  ["ISBN", "ISBN-10"]
+)
+# => ["9789992158104", "9789971502102"]
+```
+
+
 But for some identifiers might have more. Check [their implementation](https://github.com/altmetric/identifiers/tree/master/lib/identifiers) to see all the methods available.
 
 For `URN`s, please check the [URN gem documentation](https://github.com/altmetric/urn) to see all the available options.

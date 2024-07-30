@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.14.0] - 2024-07-30
+### Added
+- Added optional prefixes to ISBNs extraction:
+    - extract will not match non-prefixed string when passing prefixes.
+    - It works as before without prefixes, no breaking changes, 100% backward compatible.
+
 ## [0.13.0] - 2019-09-04
 ### Added
 - Added new mode to the DOI extraction, so that it doesn't strip trailing
