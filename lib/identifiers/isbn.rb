@@ -54,7 +54,7 @@ module Identifiers
         .to_s
         .scan(/(#{prefix_regexp})#{TEXT_AFTER_PREFIX_REGEXP}/i)
         .inject('') do |acum, (_prefix, match)|
-          acum += "#{match} \n "
+          acum + "#{match} \n "
         end
     end
 
