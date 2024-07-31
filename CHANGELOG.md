@@ -4,9 +4,8 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.14.0] - 2024-07-30
 ### Added
-- Added optional prefixes to ISBNs extraction:
-    - extract will not match non-prefixed string when passing prefixes.
-    - It works as before without prefixes, no breaking changes, 100% backward compatible.
+- Added optional prefixes argument to ISBNs extraction.
+  If passed `.extract` will only match series of numbers that are preceded by any of the passed prefixes
 
 ## [0.13.0] - 2019-09-04
 ### Added
