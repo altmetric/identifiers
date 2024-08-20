@@ -39,7 +39,19 @@ module Identifiers
       \d{1,7}   # ISBN title enumerator and check digit
       \b
     }x
-    TEXT_AFTER_PREFIX_REGEXP = /:?\s*(\d[^a-zA-Z]*)/
+    TEXT_AFTER_PREFIX_REGEXP = /
+      :?                    # Optional colon
+                            # If you want to use a different separator, you can add it as a prefix
+      \s*                   # Optional whitespaces
+      (                     # ISBN capture group
+        (?:
+          \d+               # ISBN Starts with a digit or more
+          ([\p{Pd}\p{Zs}])? # Optional hyphenation
+          \s?               # Optional whitespace
+        ){3,4}              # ISBN has 3 or 4 groups
+        [\dX]               # Check digit
+      )
+    /
 
     def self.extract(str , prefixes = [])
       return extract_with_prefix(str , prefixes) if prefixes.any?
@@ -49,7 +61,8 @@ module Identifiers
 
     def self.extract_with_prefix(str, prefixes)
       prefix_regexp = Regexp.union(prefixes)
-      regexp = Regexp.new("(#{prefix_regexp.source})#{TEXT_AFTER_PREFIX_REGEXP.source}", Regexp::IGNORECASE)
+      rules = (Regexp::IGNORECASE | Regexp::EXTENDED)
+      regexp = Regexp.new("(#{prefix_regexp.source})#{TEXT_AFTER_PREFIX_REGEXP.source}", rules)
 
       str
         .to_s
