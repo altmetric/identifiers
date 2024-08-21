@@ -142,7 +142,7 @@ module Identifiers
 
     def self.isbn_a_candidate_matcher
       # We capture the ISBN-A prefix for the ISBN-A regexp to work correctly when extracting ISBN-As
-      Regexp.new(ISBN_A_REGEXP.source.gsub('(?<=10\\.)', '10\.').to_s, Regexp::IGNORECASE | Regexp::EXTENDED)
+      Regexp.new(ISBN_A_REGEXP.source.gsub('(?<=10\\.)', '10\.'), Regexp::IGNORECASE | Regexp::EXTENDED)
     end
   end
 end
