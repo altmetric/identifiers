@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Identifiers
   class ISBN
     ISBN_13_REGEXP = /
@@ -12,7 +14,7 @@ module Identifiers
         \d                # Check digit
       )
       \b
-    /x
+    /x.freeze
     ISBN_10_REGEXP = /
       (?<!              # Don't match a hyphenated or spaced ISBN-13
         97[89]
@@ -29,7 +31,7 @@ module Identifiers
         [\dX]             # Check digit
       )
       \b
-    /x
+    /x.freeze
     ISBN_A_REGEXP = %r{
       \b
       (?<=10\.) # Directory indicator (always 10)
@@ -38,38 +40,20 @@ module Identifiers
       /         # Prefix/suffix divider
       \d{1,7}   # ISBN title enumerator and check digit
       \b
-    }x
-    TEXT_AFTER_PREFIX_REGEXP = /
-      :?                    # Optional colon
-                            # If you want to use a different separator, you can add it as a prefix
-      \s*                   # Optional whitespaces
-      (                     # ISBN capture group
-        (?:
-          \d+               # ISBN Starts with a digit or more
-          ([\p{Pd}\p{Zs}])? # Optional hyphenation
-          \s?               # Optional whitespace
-        ){3,4}              # ISBN has 3 or 4 groups
-        [\dX]               # Check digit
-      )
-    /
+    }x.freeze
 
-    def self.extract(str , prefixes = [])
-      return extract_with_prefix(str , prefixes) if prefixes.any?
+    def self.extract(str, prefixes = [])
+      return extract_with_prefix(str, prefixes) if prefixes.any?
 
       extract_isbn_as(str) + extract_thirteen_digit_isbns(str) + extract_ten_digit_isbns(str)
     end
 
     def self.extract_with_prefix(str, prefixes)
-      prefix_regexp = Regexp.union(prefixes)
-      rules = (Regexp::IGNORECASE | Regexp::EXTENDED)
-      regexp = Regexp.new("(#{prefix_regexp.source})#{TEXT_AFTER_PREFIX_REGEXP.source}", rules)
+      prefix_regexp = generate_prefix_regexp(prefixes)
 
-      str
-        .to_s
-        .scan(regexp)
-        .filter_map do |_prefix, match|
-          extract(match).first
-        end
+      [isbn_a_candidate_matcher, ISBN_13_REGEXP, ISBN_10_REGEXP].inject([]) do |matches, isbn_regexp|
+        matches | isbn_with_prefix_candidates(str, prefix_regexp, isbn_regexp)
+      end
     end
 
     def self.extract_isbn_as(str)
@@ -92,13 +76,13 @@ module Identifiers
         .select { |isbn, hyphen| !hyphen || isbn.count(hyphen) == 3 }
         .map { |isbn, hyphen| isbn.delete(hyphen.to_s) }
         .select { |isbn| valid_isbn_10?(isbn) }
-        .map { |isbn|
+        .map do |isbn|
           isbn.chop!
           isbn.prepend('978')
           isbn << isbn_13_check_digit(isbn).to_s
 
           isbn
-        }
+        end
     end
 
     def self.isbn_13_check_digit(isbn)
@@ -130,6 +114,35 @@ module Identifiers
 
     def self.digits_of(isbn)
       isbn.to_s.each_char.map { |char| char == 'X' ? 10 : Integer(char) }.to_enum
+    end
+
+    def self.isbn_with_prefix_candidates(str, prefix_regexp, isbn_regexp)
+      regexp = Regexp.new("#{prefix_regexp}#{isbn_regexp}", Regexp::IGNORECASE | Regexp::EXTENDED)
+
+      str
+        .to_s
+        .scan(regexp)
+        .filter_map do |match|
+          extract(Array(match).first)&.first
+        end
+    end
+
+    def self.generate_prefix_regexp(prefixes)
+      joined_prefixes = Regexp.union(prefixes).source
+
+      Regexp.new(
+        "(?<=                 # Lookbehind for a prefix
+           #{joined_prefixes} # ie:p1|p2|p3
+         )
+         :?                   # Optional colon. If you want to use a different separator, you can add it as a prefix
+         \\s*                 # Optional whitespaces
+         ", Regexp::IGNORECASE | Regexp::EXTENDED
+      )
+    end
+
+    def self.isbn_a_candidate_matcher
+      # We capture the ISBN-A prefix for the ISBN-A regexp to work correctly when extracting ISBN-As
+      Regexp.new(ISBN_A_REGEXP.source.gsub('(?<=10\\.)', '10\.').to_s, Regexp::IGNORECASE | Regexp::EXTENDED)
     end
   end
 end

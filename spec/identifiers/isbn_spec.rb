@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'identifiers/isbn'
 
 RSpec.describe Identifiers::ISBN do
@@ -127,14 +129,14 @@ RSpec.describe Identifiers::ISBN do
   context 'when passing prefixes' do
     it 'extracts only prefixed ISBNs' do
       text = "ISBN:9789992158104  ISBN-10 9789971502102 \n IsbN-13: 9789604250592 \n 9788090273412"
-      prefixes = ['IsBn', 'ISBN-10', 'ISBN-13']
+      prefixes = %w[IsBn ISBN-10 ISBN-13]
 
       expect(described_class.extract(text, prefixes))
         .to contain_exactly('9789992158104', '9789971502102', '9789604250592')
     end
 
     it 'extracts ISBNs with special characters in the prefixes' do
-      text = "ISB*N:99921-58-10-7 IS?BN-10 9971-5-0210-0 Is$bN-13: 978-0-80-506909-9 80-902734-1-6"
+      text = 'ISB*N:99921-58-10-7 IS?BN-10 9971-5-0210-0 Is$bN-13: 978-0-80-506909-9 80-902734-1-6'
       prefixes = ['IsB*n', 'IS?BN-10', 'IS$BN-13']
 
       expect(described_class.extract(text, prefixes))
@@ -142,7 +144,7 @@ RSpec.describe Identifiers::ISBN do
     end
 
     it 'extracts ISBNs with Unicode dashes' do
-      text = "ISB*N:99921-58-10-7 IS?BN-10 9971-5-0210-0 Is$bN-13: 978–0–80–506909–9 80-902734-1-6"
+      text = 'ISB*N:99921-58-10-7 IS?BN-10 9971-5-0210-0 Is$bN-13: 978–0–80–506909–9 80-902734-1-6'
       prefixes = ['IsB*n', 'IS?BN-10', 'IS$BN-13']
 
       expect(described_class.extract(text, prefixes))
@@ -150,7 +152,7 @@ RSpec.describe Identifiers::ISBN do
     end
 
     it 'extracts ISBNs with Unicode spaces' do
-      text = "ISBN-13: 978 0 80 506909 9"
+      text = 'ISBN-13: 978 0 80 506909 9'
       prefixes = ['ISBN-13']
 
       expect(described_class.extract(text, prefixes)).to contain_exactly('9780805069099')
@@ -167,9 +169,16 @@ RSpec.describe Identifiers::ISBN do
       expect(described_class.extract(text, prefixes)).to contain_exactly('9782759402694')
     end
 
+    it 'extracts ISBN-13s from ISBN-As' do
+      text = 'ISBN 10.978.8898392/315'
+      prefixes = %w[ISBN ISBN-10]
+
+      expect(described_class.extract(text, prefixes)).to contain_exactly('9788898392315')
+    end
+
     it 'does not extract ISBNs with different prefixes' do
       text = "ISBN:9789992158104 \n ISBN-10 9789971502102  IsbN-13: 9789604250592  9788090273412"
-      prefixes = ['IsBn', 'ISBN-10']
+      prefixes = %w[IsBn ISBN-10]
 
       expect(described_class.extract(text, prefixes))
         .to contain_exactly('9789992158104', '9789971502102')
@@ -177,7 +186,7 @@ RSpec.describe Identifiers::ISBN do
 
     it 'does not extract ISBNs without prefixes' do
       text = "9789992158104 9789971502102 9789604250592 \n 9788090273412"
-      prefixes = ['IsBn', 'ISBN-10', 'ISBN-13']
+      prefixes = %w[IsBn ISBN-10 ISBN-13]
 
       expect(described_class.extract(text, prefixes)).to be_empty
     end
