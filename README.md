@@ -106,6 +106,6 @@ We also maintain [a version of this library for PHP](https://github.com/altmetri
 
 ## License
 
-Copyright © 2016-2018 Altmetric LLP
+Copyright © 2016-2024 Altmetric LLP
 
 Distributed under the [MIT License](http://opensource.org/licenses/MIT).
