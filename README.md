@@ -1,4 +1,4 @@
-# Identifiers [![Build Status](https://travis-ci.org/altmetric/identifiers.svg?branch=master)](https://travis-ci.org/altmetric/identifiers) [![Gem Version](https://badge.fury.io/rb/identifiers.svg)](https://badge.fury.io/rb/identifiers)
+# Identifiers [![Gem Version](https://badge.fury.io/rb/identifiers.svg)](https://badge.fury.io/rb/identifiers)
 
 Collection of utilities related to the extraction, validation and normalization of various scholarly identifiers. The supported list is:
 
@@ -12,6 +12,8 @@ Collection of utilities related to the extraction, validation and normalization 
 - [RePEc IDs](https://en.wikipedia.org/wiki/Research_Papers_in_Economics)
 - [URNs](https://en.wikipedia.org/wiki/Uniform_Resource_Name)
 - [ORCID identifiers](http://orcid.org/)
+
+**Supported Ruby versions**: >= 2.7
 
 ## Installation
 
@@ -106,6 +108,6 @@ We also maintain [a version of this library for PHP](https://github.com/altmetri
 
 ## License
 
-Copyright © 2016-2018 Altmetric LLP
+Copyright © 2016-2024 Altmetric LLP
 
 Distributed under the [MIT License](http://opensource.org/licenses/MIT).
