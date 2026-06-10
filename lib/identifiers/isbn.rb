@@ -3,6 +3,7 @@
 module Identifiers
   class ISBN
     ISBN_13_REGEXP = /
+      (?<!\p{Pd})         # Not part of a longer hyphen-separated run of digits
       \b
       (
         97[89]            # ISBN (GS1) Bookland prefix
@@ -14,12 +15,14 @@ module Identifiers
         \d                # Check digit
       )
       \b
+      (?!\p{Pd})          # Not part of a longer hyphen-separated run of digits
     /x.freeze
     ISBN_10_REGEXP = /
       (?<!              # Don't match a hyphenated or spaced ISBN-13
         97[89]
         [\p{Pd}\p{Zs}]
       )
+      (?<!\p{Pd})         # Not part of a longer hyphen-separated run of digits
       \b
       (
         \d{1,5}           # Registration group identifier
@@ -31,6 +34,7 @@ module Identifiers
         [\dX]             # Check digit
       )
       \b
+      (?!\p{Pd})          # Not part of a longer hyphen-separated run of digits
     /x.freeze
     ISBN_A_REGEXP = %r{
       \b

@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Fixed
+- Stop extracting spurious ISBNs from a long run of digits separated by hyphens (#34)
+
 ## [0.14.0] - 2024-07-30
 ### Added
 - Added optional prefixes argument to ISBNs extraction.
