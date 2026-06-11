@@ -33,6 +33,10 @@ RSpec.describe Identifiers::ISBN do
     expect(described_class.extract('ISBN: 978–0–80–506909–9')).to contain_exactly('9780805069099')
   end
 
+  it 'extracts ISBNs that mix different dash characters' do
+    expect(described_class.extract('978–3−200–01908–9')).to contain_exactly('9783200019089')
+  end
+
   it 'extracts ISBNs with spaces' do
     expect(described_class.extract('ISBN: 978 0 80 506909 9')).to contain_exactly('9780805069099')
   end

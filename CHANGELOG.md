@@ -6,6 +6,10 @@ project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Stop extracting spurious ISBNs from a long run of digits separated by hyphens (#34)
 
+### Added
+- Extract ISBNs that mix different dash characters, including the U+2212 minus
+  sign, within a single ISBN (#31)
+
 ## [0.14.0] - 2024-07-30
 ### Added
 - Added optional prefixes argument to ISBNs extraction.
