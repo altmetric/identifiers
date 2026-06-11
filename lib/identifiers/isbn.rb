@@ -45,11 +45,14 @@ module Identifiers
       \d{1,7}   # ISBN title enumerator and check digit
       \b
     }x.freeze
-    # Any dash, including U+2212 MINUS SIGN, which is not part of \p{Pd}
-    DASHES_REGEXP = /[\p{Pd}−]/.freeze
+    # Dashes other than the ASCII hyphen we normalise to, including U+2212
+    # MINUS SIGN, which is not part of \p{Pd}
+    NON_CANONICAL_DASHES_REGEXP = /[[\p{Pd}−]&&[^-]]/.freeze
 
     def self.extract(str, prefixes = [])
-      str = str.to_s.gsub(DASHES_REGEXP, '-') # Normalise dashes so a single ISBN can mix them
+      str = str.to_s
+      # Normalise dashes to a single ASCII hyphen so one ISBN can mix them
+      str = str.gsub(NON_CANONICAL_DASHES_REGEXP, '-') if str.match?(NON_CANONICAL_DASHES_REGEXP)
       return extract_with_prefix(str, prefixes) if prefixes.any?
 
       extract_isbn_as(str) + extract_thirteen_digit_isbns(str) + extract_ten_digit_isbns(str)
