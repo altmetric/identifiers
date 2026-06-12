@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = 'identifiers'
-  spec.version       = '0.14.1'
+  spec.version       = '0.15.0'
   spec.authors       = ['Jonathan Hernandez', 'Paul Mucur', 'PatoSoft']
   spec.email         = ['support@altmetric.com']
 
