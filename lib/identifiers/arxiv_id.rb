@@ -7,7 +7,7 @@ module Identifiers
       \.
       \d{4,5}           # Zero-padded sequence number of 4- or 5-digits
       (?:v\d+)?         # Literal v followed by version number of 1 or more digits
-      (?=$|[[:space:]])    # Look-ahead for end of string or whitespace
+      (?=$|[[:space:]?#])  # Look-ahead for end, whitespace, query or fragment
     }xi
     PRE_2007_REGEXP = %r{
       (?<=^|[[:space:]/])  # Look-behind for the start of the string, whitespace or a forward slash
@@ -19,7 +19,7 @@ module Identifiers
       (?:0[1-9]|1[012]) # Month
       \d{3}             # Number
       (?:v\d+)?         # Literal v followed by version number of 1 or more digits
-      (?=$|[[:space:]])    # Look-ahead for end of string or whitespace
+      (?=$|[[:space:]?#])  # Look-ahead for end, whitespace, query or fragment
     }xi
 
     def self.extract(str)
