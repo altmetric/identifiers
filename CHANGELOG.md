@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Fixed
+- Extract DOIs whose suffix is a single alphanumeric character, such as
+  `10.5290/2`. The suffix pattern required at least two characters, which no
+  part of the DOI syntax does.
+
 ## [0.15.0] - 2026-06-12
 ### Added
 - Extract ISBNs that mix different dash characters, including the U+2212 minus
