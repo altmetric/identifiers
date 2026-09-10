@@ -30,10 +30,16 @@ module Identifiers
       )
     }x
 
+    RESOLVER_URL_QUERY_OR_FRAGMENT_REGEXP = %r{
+      (https?://(?:www\.|dx\.)?doi\.org/[^\s?#]+)
+      [?#]\S+
+    }ix
+
     def self.extract(str, options = {})
       strict = options.fetch(:strict, false)
 
-      dois = str.to_s.downcase.scan(REGEXP)
+      text = str.to_s.gsub(RESOLVER_URL_QUERY_OR_FRAGMENT_REGEXP, '\\1')
+      dois = text.downcase.scan(REGEXP)
       dois = dois.map { |doi| doi.gsub(/\.+$/, '') } unless strict
 
       dois

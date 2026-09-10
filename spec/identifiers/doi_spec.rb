@@ -23,6 +23,21 @@ RSpec.describe Identifiers::DOI do
         expect(described_class.extract(str, options)).to contain_exactly('10.1049/el.2013.3006')
       end
 
+      it 'discards queries and fragments from DOI resolver URLs' do
+        str = <<~TEXT
+          https://doi.org/10.1000/PAPER.1?utm_source=readme
+          https://dx.doi.org/10.1000/PAPER.2#abstract
+        TEXT
+
+        expect(described_class.extract(str, options)).to contain_exactly('10.1000/paper.1', '10.1000/paper.2')
+      end
+
+      it 'retains question marks and hashes in bare DOI suffixes' do
+        str = '10.1000/PAPER?appendix 10.1000/PAPER#figure'
+
+        expect(described_class.extract(str, options)).to contain_exactly('10.1000/paper?appendix', '10.1000/paper#figure')
+      end
+
       it 'downcases the DOIs extracted' do
         str = 'This is an example of a DOI: 10.1097/01.ASW.0000443266.17665.19'
 

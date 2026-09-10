@@ -14,6 +14,15 @@ RSpec.describe Identifiers::ArxivId do
       expect(described_class.extract('Example: arXiv:1501.00001v2')).to contain_exactly('1501.00001v2')
     end
 
+    it 'extracts arXiv IDs from URLs with queries and fragments' do
+      str = <<~TEXT
+        https://arxiv.org/abs/1501.00001v2?utm_source=readme
+        https://arxiv.org/abs/math.GT/0309136#section
+      TEXT
+
+      expect(described_class.extract(str)).to contain_exactly('1501.00001v2', 'math.GT/0309136')
+    end
+
     it 'does not extract IDs from DOIs that end in a valid arXiv ID' do
       expect(described_class.extract('10.1049/el.2013.3006')).to be_empty
     end
