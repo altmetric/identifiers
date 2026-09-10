@@ -22,7 +22,9 @@ module Identifiers
           \([^[:space:])]+\)                    # Ending in balanced parentheses...
           (?![^[:space:]\p{P}])                 # Not followed by more suffix
           |
-          [^[:space:]]+(?![[:space:]])\p{^P}    # Suffix ending in non-punctuation
+          [^[:space:]]+[^[:space:]\p{P}]        # Suffix ending in non-punctuation
+          |
+          [[:alnum:]]                           # ...or a single alphanumeric character
         )
         \.{0,3}                                 # Allow a DOI to end with up to 3 .
       )

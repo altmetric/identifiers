@@ -29,6 +29,22 @@ RSpec.describe Identifiers::DOI do
         expect(described_class.extract(str, options)).to contain_exactly('10.1097/01.asw.0000443266.17665.19')
       end
 
+      it 'extracts DOIs whose suffix is a single character' do
+        str = 'Datasets 10.5290/2 and 10.5290/8, both registered by the Publications Office.'
+
+        expect(described_class.extract(str, options)).to contain_exactly('10.5290/2', '10.5290/8')
+      end
+
+      it 'does not extract a DOI with no suffix' do
+        expect(described_class.extract('10.1234/', options)).to be_empty
+      end
+
+      it 'does not extract a DOI whose only suffix is a symbol' do
+        str = 'Autolinked with an empty suffix: <https://doi.org/10.1234/>'
+
+        expect(described_class.extract(str, options)).to be_empty
+      end
+
       it 'does not extract a PubMed ID' do
         str = 'This is NOT a DOI: 123456'
 
